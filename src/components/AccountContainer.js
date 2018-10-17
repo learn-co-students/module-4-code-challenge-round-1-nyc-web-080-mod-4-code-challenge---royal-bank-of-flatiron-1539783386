@@ -5,25 +5,33 @@ import {transactions} from '../transactionsData'
 
 class AccountContainer extends Component {
 
-  constructor() {
-    super()
+  constructor(props) {
+    super(props);
 
-    // get a default state working with the data imported from TransactionsData
-    // use this to get the functionality working
-    // then replace the default transactions with a call to the API
-
+    this.state = {
+      filterTransactions: [],
+      searchingBy: ""
+    }
   }
 
-  handleChange(event) {
-    // your code here
+  handleChange = (input) => {
+    let allTransactions = [...this.props.transactions]
+    let targetTransactions = allTransactions.filter(transaction => {
+      return transaction.description.toLowerCase().startsWith(input.toLowerCase()) ||
+      transaction.category.toLowerCase().startsWith(input.toLowerCase())
+    })
+
+    this.setState({
+      searchingBy: input,
+      filterTransactions: targetTransactions
+    })
   }
 
   render() {
-
     return (
       <div>
-        <Search />
-        <TransactionsList />
+        <Search searchItem={this.handleChange}/>
+        <TransactionsList transactions={this.state.searchingBy === "" ? this.props.transactions : this.state.filterTransactions}  />
       </div>
     )
   }
