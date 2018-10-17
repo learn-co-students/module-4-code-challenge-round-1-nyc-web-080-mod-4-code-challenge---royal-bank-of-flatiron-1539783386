@@ -8,9 +8,9 @@ class App extends Component {
     return (
       <div className="ui raised segment">
         <div className="ui segment violet inverted">
-          <h2>The Royal Bank of Flatiron</h2>
+          <h2>Bank of Andrew</h2>
         </div>
-        
+
         <AccountContainer />
 
       </div>

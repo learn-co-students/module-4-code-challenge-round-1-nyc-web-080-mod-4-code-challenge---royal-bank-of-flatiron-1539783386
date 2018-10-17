@@ -3,27 +3,46 @@ import TransactionsList from './TransactionsList'
 import Search from './Search'
 import {transactions} from '../transactionsData'
 
+const API_ENDPOINT = "https://boiling-brook-94902.herokuapp.com/transactions"
+
+
 class AccountContainer extends Component {
 
-  constructor() {
-    super()
+  state = {
+    transactions: [ ],
+    searchTerm: ""
+  }
 
-    // get a default state working with the data imported from TransactionsData
-    // use this to get the functionality working
-    // then replace the default transactions with a call to the API
+
+//fetch the data
+
+  componentDidMount(){
+    fetch(API_ENDPOINT)
+    .then(r => r.json())
+    .then(data => {
+      this.setState({
+        transactions: data
+      })
+    })
+
+
 
   }
 
-  handleChange(event) {
-    // your code here
+//handle the search
+  handleChange = (input) =>{
+    this.setState({
+      searchTerm: input
+    })
   }
 
   render() {
+    
 
     return (
       <div>
-        <Search />
-        <TransactionsList />
+        <Search handleChange = {this.handleChange}/>
+        <TransactionsList searchTerm = {this.state.searchTerm} transactions={this.state.transactions}/>
       </div>
     )
   }
