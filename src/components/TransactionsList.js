@@ -1,6 +1,36 @@
 import React from 'react'
 
-const TransactionsList = () => {
+const TransactionsList = (props) => {
+
+  // Function to render transactions from prop transaction
+  const renderTransactions = () => {
+    return props.transactions.map(transaction => {
+      return (
+        <tr key={transaction.id}>
+          <th>
+            <h3 className="ui center aligned">
+              {transaction.posted_at}
+            </h3>
+          </th>
+          <th>
+            <h3 className="ui center aligned">
+              {transaction.description}
+            </h3>
+          </th>
+          <th>
+            <h3 className="ui center aligned">
+              {transaction.category}
+            </h3>
+          </th>
+          <th>
+            <h3 className="ui center aligned">
+              {transaction.amount}
+            </h3>
+          </th>
+        </tr>
+      )
+    })
+  }
 
   return (
     <table className="ui celled striped padded table">
@@ -28,7 +58,7 @@ const TransactionsList = () => {
           </th>
         </tr>
 
-        {"... your code here..."}
+        {renderTransactions()}
 
       </tbody>
     </table>

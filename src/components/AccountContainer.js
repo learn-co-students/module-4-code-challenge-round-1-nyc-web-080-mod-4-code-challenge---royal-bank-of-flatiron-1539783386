@@ -8,22 +8,51 @@ class AccountContainer extends Component {
   constructor() {
     super()
 
-    // get a default state working with the data imported from TransactionsData
-    // use this to get the functionality working
-    // then replace the default transactions with a call to the API
+    // Default both transactions to imported data
+    this.state = {
+      transactions: transactions,
+      filteredTransactions: transactions
+    }
 
   }
 
-  handleChange(event) {
-    // your code here
+  // Fetch data from API
+  componentDidMount() {
+    fetch('https://boiling-brook-94902.herokuapp.com/transactions')
+    .then(resp => resp.json())
+    .then(tData => {
+      this.setState({
+        transactions: tData,
+        filteredTransactions: tData
+      })
+    })
+  }
+
+  // Function to handle filtering of data given input
+  handleSearch = (value) => {
+    const filteredTransactions = this.state.transactions.filter(transaction => {
+      const desc = transaction.description.toLowerCase()
+      const category = transaction.category.toLowerCase()
+      return desc.includes(value.toLowerCase()) || category.includes(value.toLowerCase())
+    })
+
+    // Set filtered transactions state to new filtered data
+    this.setState({
+      filteredTransactions
+    })
+  }
+
+  // Search form change handler
+  handleChange = (event) => {
+    this.handleSearch(event.target.value)
   }
 
   render() {
 
     return (
       <div>
-        <Search />
-        <TransactionsList />
+        <Search handleChange={this.handleChange}/>
+        <TransactionsList transactions={this.state.filteredTransactions}/>
       </div>
     )
   }
