@@ -1,9 +1,14 @@
 import React from 'react'
 
-const Search = () => {
+const Search = ({handleChange, searchInput}) => {
+
+  const handleInput = (e) => {
+    handleChange(e.target.value)
+  }
+
   return (
     <div className="ui huge fluid icon input">
-      <input
+      <input onChange={handleInput} value={searchInput}
         type="text"
         placeholder={"Search your Recent Transactions"}
       />
