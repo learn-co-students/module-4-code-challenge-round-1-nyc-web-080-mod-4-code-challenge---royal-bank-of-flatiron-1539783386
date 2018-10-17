@@ -4,14 +4,29 @@ import AccountContainer from './AccountContainer'
 import '../stylesheets/App.css'
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      transactions: []
+    }
+  }
+  componentDidMount() {
+    fetch("https://boiling-brook-94902.herokuapp.com/transactions")
+    .then(r => r.json())
+    .then(response => {
+      this.setState({
+        transactions: response
+      },() => console.log(this.state.transactions))
+    })
+  }
   render() {
     return (
       <div className="ui raised segment">
         <div className="ui segment violet inverted">
           <h2>The Royal Bank of Flatiron</h2>
         </div>
-        
-        <AccountContainer />
+
+        <AccountContainer transactions={this.state.transactions}/>
 
       </div>
     )
